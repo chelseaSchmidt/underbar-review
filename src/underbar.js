@@ -117,6 +117,23 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    let result = [];
+    let uniqueResults = {};
+    _.each(array, function(element) {
+      if (!(element in uniqueResults) && iterator === undefined) {
+        uniqueResults[element] = element;
+      } else if (iterator) {
+        let transformed = iterator(element);
+        if (!(transformed in uniqueResults)) {
+          uniqueResults[transformed] = element;
+        }
+      }
+    });
+    _.each(uniqueResults, function(value) {
+      result.push(value);
+    });
+
+    return result;
   };
 
 
